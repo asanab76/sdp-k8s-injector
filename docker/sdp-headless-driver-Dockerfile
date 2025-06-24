@@ -4,7 +4,9 @@ ARG REVISION
 ARG CLIENT_VERSION="${MAJOR_VERSION}.${MINOR_VERSION}"
 ARG CLIENT_DEB="appgate-sdp-headless_${CLIENT_FULL_VERSION}_amd64.deb"
 
-FROM alpine:3.20 AS sdp-headless-client
+#FROM alpine:3.20 AS sdp-headless-client
+FROM arm64v8/alpine:3.20 AS sdp-headless-client
+
 ARG CLIENT_VERSION
 ARG CLIENT_DEB
 
@@ -13,7 +15,8 @@ RUN curl "https://bin.appgate-sdp.com/latest/client.json" --output "/tmp/latest.
 ARG QUERY='.releases.'\"${CLIENT_VERSION}\"'[] | select(.os == "ubuntu" and .type == "headless") | .link'
 RUN curl $(jq "${QUERY}" /tmp/latest.json --raw-output) --output "/tmp/${CLIENT_DEB}"
 
-FROM debian:bookworm-slim
+#FROM debian:bookworm-slim
+FROM debian:bookworm-slim arm64v8/debian:bookworm-20240423-slim
 LABEL sdp=true
 LABEL project=sdp-client-headless
 ARG CLIENT_DEB
