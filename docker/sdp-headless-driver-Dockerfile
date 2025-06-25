@@ -16,7 +16,7 @@ ARG QUERY='.releases.'\"${CLIENT_VERSION}\"'[] | select(.os == "ubuntu" and .typ
 RUN curl $(jq "${QUERY}" /tmp/latest.json --raw-output) --output "/tmp/${CLIENT_DEB}"
 
 #FROM debian:bookworm-slim
-FROM debian:bookworm-slim arm64v8/debian:bookworm-20240423-slim
+FROM arm64v8/debian:bookworm-20240423-slim
 LABEL sdp=true
 LABEL project=sdp-client-headless
 ARG CLIENT_DEB
